@@ -1,0 +1,161 @@
+# Assigns Alt to the $mod variable
+set $mod Mod1
+
+# Assigns Super to the $sup variable
+set $sup Mod4
+
+# Font for window titles
+font pango:JetBrainsMono Nerd Font 11
+
+# title style
+for_window [class=".*"] border pixel 2
+
+# Hides active window border if there's only one window on screen
+hide_edge_borders smart
+
+# Sets gaps to 20px
+# gaps inner 20
+
+# Autostart Applications
+# Sets wallpaper (Change this to whatever your wallpaper is)
+exec feh --bg-center $HOME/Pictures/astral.png
+# Launches Polybar
+exec sh $HOME/.config/polybar/launch.sh
+# Sets capslock to act as backspace
+exec setxkbmap -option caps:backspace
+# Uses betterlockscreen as lock screen
+exec --no-startup-id xss-lock -- betterlockscreen -l
+# Turns on natural scrolling for my Thinkpad (Device specific, delete/modify this)
+exec xinput set-prop "Synaptics TM2668-001" "libinput Natural Scrolling Enabled" 1
+
+# Multi-screen screenshots with scrot
+bindsym --release Print exec scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
+
+# OSX-like area selection screenshots
+bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec alacritty
+
+# start PCManFM
+bindsym $mod+backslash exec thunar
+
+# start LibreWolf
+bindsym $mod+w exec flatpak run io.gitlab.librewolf-community
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start rofi (a program launcher)
+bindsym $mod+d exec rofi -show drun -theme astral
+bindsym $mod+Tab exec rofi -show window -theme astral
+
+# start rofi-power-menu (https://github.com/jluttine/rofi-power-menu)
+bindsym $mod+Shift+p exec rofi -show power-menu -modi power-menu:rofi-power-menu -theme astral
+
+# start rofi-keyboard-menu (https://github.com/ablazingeboy/rofi-keyboard-menu)
+bindsym $mod+Shift+z exec rofi -show keyboard-menu -modi keyboard-menu:rofi-keyboard-menu -theme astral
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "一"
+set $ws2 "二"
+set $ws3 "三"
+set $ws4 "四"
+set $ws5 "五"
+set $ws6 "六"
+set $ws7 "七"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize grow width 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Right resize shrink width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+set $yl #9b58ff
+set $bl #111111
+set $gr #222222
+
+# class                 border  bground text    indicator child_border
+client.focused          $yl     $yl     $bl     $yl       $yl
+client.focused_inactive #333333 #5F676A #FFFFFF #484E50   #5F676A
+client.unfocused        #333333 #222222 #888888 #292D2E   #222222
+client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
+client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+
+client.background       #FFFFFF
