@@ -305,7 +305,7 @@ content = "アーチ "
 content-font = 4
 content-foreground = ${colors.accent}
 content-padding = 0
-click-left = rofi -show power-menu -modi power-menu:rofi-power-menu -theme greenmachine
+click-left = rofi -show power-menu -modi power-menu:rofi-power-menu -theme astral
 
 [settings]
 screenchange-reload = true
